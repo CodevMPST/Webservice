@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25 janv. 2017 00:17:47 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="dao.Station" table="station" catalog="autolib" optimistic-lock="version">
+        <id name="idStation" type="java.lang.Integer">
+            <column name="idStation" />
+            <generator class="identity" />
+        </id>
+        <property name="latitude" type="big_decimal">
+            <column name="latitude" precision="9" scale="6" not-null="true" />
+        </property>
+        <property name="longitude" type="big_decimal">
+            <column name="longitude" precision="9" scale="6" not-null="true" />
+        </property>
+        <property name="adresse" type="string">
+            <column name="adresse" length="200" />
+        </property>
+        <property name="numero" type="java.lang.Integer">
+            <column name="numero" />
+        </property>
+        <property name="ville" type="string">
+            <column name="ville" length="100" />
+        </property>
+        <property name="codePostal" type="java.lang.Integer">
+            <column name="code_postal" />
+        </property>
+        <set name="bornes" table="borne" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="station" not-null="true" />
+            </key>
+            <one-to-many class="dao.Borne" />
+        </set>
+    </class>
+</hibernate-mapping>
