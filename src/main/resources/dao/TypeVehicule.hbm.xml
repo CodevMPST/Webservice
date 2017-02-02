@@ -1,24 +1,23 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 25 janv. 2017 00:17:47 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="dao.TypeVehicule" table="type_vehicule" catalog="autolib" optimistic-lock="version">
-        <id name="idTypeVehicule" type="java.lang.Integer">
-            <column name="idType_vehicule" />
-            <generator class="identity" />
-        </id>
-        <property name="categorie" type="string">
-            <column name="categorie" length="45" not-null="true" />
-        </property>
-        <property name="typeVehicule" type="string">
-            <column name="type_vehicule" length="45" not-null="true" />
-        </property>
-        <set name="vehicules" table="vehicule" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="type_vehicule" not-null="true" />
-            </key>
-            <one-to-many class="dao.Vehicule" />
-        </set>
-    </class>
+  <class catalog="autolib" name="dao.TypeVehicule" optimistic-lock="version" table="type_vehicule">
+    <id name="idTypeVehicule" type="java.lang.Integer">
+      <column name="idType_vehicule"/>
+      <generator class="identity"/>
+    </id>
+    <property name="categorie" type="string">
+      <column length="45" name="categorie" not-null="true"/>
+    </property>
+    <property name="typeVehicule" type="string">
+      <column length="45" name="type_vehicule" not-null="true"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="vehicules" table="vehicule">
+      <key>
+        <column name="type_vehicule" not-null="true"/>
+      </key>
+      <one-to-many class="dao.Vehicule"/>
+    </set>
+  </class>
 </hibernate-mapping>

@@ -1,33 +1,32 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 25 janv. 2017 00:17:47 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="dao.Borne" table="borne" catalog="autolib" optimistic-lock="version">
-        <id name="idBorne" type="java.lang.Integer">
-            <column name="idBorne" />
-            <generator class="identity" />
-        </id>
-        <many-to-one name="station" class="dao.Station" fetch="select">
-            <column name="station" not-null="true" />
-        </many-to-one>
-        <many-to-one name="vehicule" class="dao.Vehicule" fetch="select">
-            <column name="idVehicule" />
-        </many-to-one>
-        <property name="etatBorne" type="boolean">
-            <column name="etatBorne" not-null="true" />
-        </property>
-        <set name="utilisesForBorneDepart" table="utilise" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="borne_depart" not-null="true" />
-            </key>
-            <one-to-many class="dao.Utilise" />
-        </set>
-        <set name="utilisesForBorneArrivee" table="utilise" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="borne_arrivee" />
-            </key>
-            <one-to-many class="dao.Utilise" />
-        </set>
-    </class>
+  <class catalog="autolib" name="dao.Borne" optimistic-lock="version" table="borne">
+    <id name="idBorne" type="java.lang.Integer">
+      <column name="idBorne"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="dao.Station" fetch="select" name="station">
+      <column name="station" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="dao.Vehicule" fetch="select" name="vehicule">
+      <column name="idVehicule"/>
+    </many-to-one>
+    <property name="etatBorne" type="boolean">
+      <column name="etatBorne" not-null="true"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="utilisesForBorneDepart" table="utilise">
+      <key>
+        <column name="borne_depart" not-null="true"/>
+      </key>
+      <one-to-many class="dao.Utilise"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="utilisesForBorneArrivee" table="utilise">
+      <key>
+        <column name="borne_arrivee"/>
+      </key>
+      <one-to-many class="dao.Utilise"/>
+    </set>
+  </class>
 </hibernate-mapping>

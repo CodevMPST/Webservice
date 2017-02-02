@@ -1,33 +1,32 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 25 janv. 2017 00:17:47 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="dao.Client" table="client" catalog="autolib" optimistic-lock="version">
-        <id name="idClient" type="java.lang.Integer">
-            <column name="idClient" />
-            <generator class="identity" />
-        </id>
-        <property name="nom" type="string">
-            <column name="nom" length="45" not-null="true" />
-        </property>
-        <property name="prenom" type="string">
-            <column name="prenom" length="45" not-null="true" />
-        </property>
-        <property name="dateNaissance" type="date">
-            <column name="date_naissance" length="10" />
-        </property>
-        <set name="reservations" table="reservation" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="client" not-null="true" />
-            </key>
-            <one-to-many class="dao.Reservation" />
-        </set>
-        <set name="utilises" table="utilise" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="Client" not-null="true" />
-            </key>
-            <one-to-many class="dao.Utilise" />
-        </set>
-    </class>
+  <class catalog="autolib" name="dao.Client" optimistic-lock="version" table="client">
+    <id name="idClient" type="java.lang.Integer">
+      <column name="idClient"/>
+      <generator class="identity"/>
+    </id>
+    <property name="nom" type="string">
+      <column length="45" name="nom" not-null="true"/>
+    </property>
+    <property name="prenom" type="string">
+      <column length="45" name="prenom" not-null="true"/>
+    </property>
+    <property name="dateNaissance" type="date">
+      <column length="10" name="date_naissance"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="reservations" table="reservation">
+      <key>
+        <column name="client" not-null="true"/>
+      </key>
+      <one-to-many class="dao.Reservation"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="utilises" table="utilise">
+      <key>
+        <column name="Client" not-null="true"/>
+      </key>
+      <one-to-many class="dao.Utilise"/>
+    </set>
+  </class>
 </hibernate-mapping>

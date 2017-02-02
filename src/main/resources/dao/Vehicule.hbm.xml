@@ -1,48 +1,47 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 25 janv. 2017 00:17:47 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="dao.Vehicule" table="vehicule" catalog="autolib" optimistic-lock="version">
-        <id name="idVehicule" type="java.lang.Integer">
-            <column name="idVehicule" />
-            <generator class="identity" />
-        </id>
-        <many-to-one name="typeVehicule" class="dao.TypeVehicule" fetch="select">
-            <column name="type_vehicule" not-null="true" />
-        </many-to-one>
-        <property name="rfid" type="int">
-            <column name="RFID" not-null="true" unique="true" />
-        </property>
-        <property name="etatBatterie" type="java.lang.Integer">
-            <column name="etatBatterie" />
-        </property>
-        <property name="disponibilite" type="string">
-            <column name="Disponibilite" length="45" not-null="true" />
-        </property>
-        <property name="latitude" type="big_decimal">
-            <column name="latitude" precision="9" scale="6" />
-        </property>
-        <property name="longitude" type="big_decimal">
-            <column name="longitude" precision="9" scale="6" />
-        </property>
-        <set name="bornes" table="borne" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="idVehicule" />
-            </key>
-            <one-to-many class="dao.Borne" />
-        </set>
-        <set name="reservations" table="reservation" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="vehicule" not-null="true" />
-            </key>
-            <one-to-many class="dao.Reservation" />
-        </set>
-        <set name="utilises" table="utilise" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="Vehicule" not-null="true" />
-            </key>
-            <one-to-many class="dao.Utilise" />
-        </set>
-    </class>
+  <class catalog="autolib" name="dao.Vehicule" optimistic-lock="version" table="vehicule">
+    <id name="idVehicule" type="java.lang.Integer">
+      <column name="idVehicule"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="dao.TypeVehicule" fetch="select" name="typeVehicule">
+      <column name="type_vehicule" not-null="true"/>
+    </many-to-one>
+    <property name="rfid" type="int">
+      <column name="RFID" not-null="true" unique="true"/>
+    </property>
+    <property name="etatBatterie" type="java.lang.Integer">
+      <column name="etatBatterie"/>
+    </property>
+    <property name="disponibilite" type="string">
+      <column length="45" name="Disponibilite" not-null="true"/>
+    </property>
+    <property name="latitude" type="big_decimal">
+      <column name="latitude" precision="9" scale="6"/>
+    </property>
+    <property name="longitude" type="big_decimal">
+      <column name="longitude" precision="9" scale="6"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="bornes" table="borne">
+      <key>
+        <column name="idVehicule"/>
+      </key>
+      <one-to-many class="dao.Borne"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="reservations" table="reservation">
+      <key>
+        <column name="vehicule" not-null="true"/>
+      </key>
+      <one-to-many class="dao.Reservation"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="utilises" table="utilise">
+      <key>
+        <column name="Vehicule" not-null="true"/>
+      </key>
+      <one-to-many class="dao.Utilise"/>
+    </set>
+  </class>
 </hibernate-mapping>

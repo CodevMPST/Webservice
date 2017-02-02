@@ -1,28 +1,27 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 25 janv. 2017 00:17:47 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="dao.Reservation" table="reservation" catalog="autolib" optimistic-lock="version">
-        <composite-id name="id" class="dao.ReservationId">
-            <key-property name="vehicule" type="int">
-                <column name="vehicule" />
-            </key-property>
-            <key-property name="client" type="int">
-                <column name="client" />
-            </key-property>
-            <key-property name="dateReservation" type="timestamp">
-                <column name="date_reservation" length="19" />
-            </key-property>
-        </composite-id>
-        <many-to-one name="client" class="dao.Client" update="false" insert="false" fetch="select">
-            <column name="client" not-null="true" />
-        </many-to-one>
-        <many-to-one name="vehicule" class="dao.Vehicule" update="false" insert="false" fetch="select">
-            <column name="vehicule" not-null="true" />
-        </many-to-one>
-        <property name="dateEcheance" type="timestamp">
-            <column name="date_echeance" length="19" />
-        </property>
-    </class>
+  <class catalog="autolib" name="dao.Reservation" optimistic-lock="version" table="reservation">
+    <composite-id class="dao.ReservationId" name="id">
+      <key-property name="vehicule" type="int">
+        <column name="vehicule"/>
+      </key-property>
+      <key-property name="client" type="int">
+        <column name="client"/>
+      </key-property>
+      <key-property name="dateReservation" type="timestamp">
+        <column length="19" name="date_reservation"/>
+      </key-property>
+    </composite-id>
+    <many-to-one class="dao.Client" fetch="select" insert="false" name="client" update="false">
+      <column name="client" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="dao.Vehicule" fetch="select" insert="false" name="vehicule" update="false">
+      <column name="vehicule" not-null="true"/>
+    </many-to-one>
+    <property name="dateEcheance" type="timestamp">
+      <column length="19" name="date_echeance"/>
+    </property>
+  </class>
 </hibernate-mapping>
