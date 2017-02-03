@@ -52,6 +52,7 @@ public class Borne  implements java.io.Serializable {
         return this.vehicule;
     }
     
+    
     public void setVehicule(Vehicule vehicule) {
         this.vehicule = vehicule;
     }
@@ -62,6 +63,11 @@ public class Borne  implements java.io.Serializable {
     public void setEtatBorne(boolean etatBorne) {
         this.etatBorne = etatBorne;
     }
+    
+    public boolean getEtatBorne() {
+        return this.etatBorne;
+    }
+    
     public Set<Utilise> getUtilisesForBorneDepart() {
         return this.utilisesForBorneDepart;
     }
