@@ -1,9 +1,12 @@
 package service;
 
 import dao.Borne;
+import dao.Client;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import dao.NewHibernateUtil;
+import dao.Reservation;
+import dao.ReservationId;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import dao.Station;
+import java.util.Date;
 
 @RestController
 public class Controlleur {
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
+    private final AtomicLong resCounter = new AtomicLong();
 
     @CrossOrigin()
     @GetMapping("/greeting")
@@ -65,7 +70,7 @@ public class Controlleur {
     }
 
     @CrossOrigin()
-    @GetMapping("/station")
+    @RequestMapping("/station")
     public String station(@RequestParam(value = "id", defaultValue = "1") int id) {
         Session session = NewHibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -102,8 +107,33 @@ public class Controlleur {
         }
         str = str.substring(0, str.length()-1);
         str+="]}";
+        session.getTransaction().commit();
 
         return str;
     }
     
+    @CrossOrigin()
+    @RequestMapping("/reserver")
+    public void reserver(@RequestParam(value = "idClient") int idClient, @RequestParam(value = "idBorne") int idBorne) {
+        Session session = NewHibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Borne b where b.idBorne = :idBorne");
+        query.setParameter("idBorne", idBorne);
+        List<Borne> list = query.list();
+        Borne b = list.get(0);
+        Query query2 = session.createQuery("from Client c where c.idClient = :idClient");
+        query2.setParameter("idClient", idClient);
+        List<Client> list2 = query2.list();
+        Client c = list2.get(0);
+        Reservation res = new Reservation(new ReservationId(b.getVehicule().getIdVehicule(), c.getIdClient(), new Date()), c, b.getVehicule());
+        session.save(res);
+        Query query3 = session.createQuery("update Borne as b set "+
+                "etatBorne = 1, " +
+                "idVehicule = NULL " +
+                "where idBorne = :idBorne");
+        query3.setParameter("idBorne", idBorne);
+        int result = query3.executeUpdate();
+        session.getTransaction().commit();
+        
+    }
 }
