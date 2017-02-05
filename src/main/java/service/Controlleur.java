@@ -134,6 +134,27 @@ public class Controlleur {
         query3.setParameter("idBorne", idBorne);
         int result = query3.executeUpdate();
         session.getTransaction().commit();
-        
+    }
+    
+    @CrossOrigin()
+    @RequestMapping("/restituer")
+    public void restituer(@RequestParam(value = "idClient") int idClient, @RequestParam(value = "idBorne") int idBorne) {
+        Session session = NewHibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Reservation r where r.client.idClient = :idClient");
+        query.setParameter("idClient", idClient);
+        List<Reservation> list = query.list();
+        Reservation r = list.get(0);
+        Query query2 = session.createQuery("update Borne as b set "+
+                "etatBorne = 0, " +
+                "idVehicule = :idVehicule " +
+                "where idBorne = :idBorne");
+        query2.setParameter("idBorne", idBorne);
+        query2.setParameter("idVehicule", r.getVehicule().getIdVehicule());
+        int result = query2.executeUpdate();
+        Query query3 = session.createQuery("delete Reservation r where r.client.idClient = :idClient");
+        query3.setParameter("idClient", idClient);
+        int result2 = query3.executeUpdate();
+        session.getTransaction().commit();
     }
 }
